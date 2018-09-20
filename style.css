@@ -1,0 +1,16 @@
+body {
+    background: grey;
+
+}
+
+svg {
+    background: white;
+}
+
+.bar:hover {
+    fill: white;
+}
+
+.bar {
+    fill: navy;
+}
