@@ -18,15 +18,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const w = 1000;
         const h = 500;
-        const padding = 60;
-        const minDate = d3.min(dataset, (d) => d[0]);
-        const maxDate = d3.max(dataset, (d) => d[0]);
+        const padding = 80;
+        const minDate = d3.min(dataset, (d) => d[0]).slice(0,4);
+        const maxDate = d3.max(dataset, (d) => d[0]).slice(0,4);
         const minGDP = d3.min(dataset, (d) => d[1]);
         const maxGDP = d3.max(dataset, (d) => d[1]);
-        const barWidth = 1;
+        const barWidth = 4;
 
-        const yScale = d3.scaleLinear().domain([minGDP, maxGDP]).range([0, h]);
-        const xScale = d3.scaleLinear().domain([0, dataset.length]).range([0, w]);
+        const yScale = d3.scaleLinear().domain([minGDP, maxGDP]).range([padding, h - padding]);
+        const xScale = d3.scaleLinear().domain([0, dataset.length]).range([padding, w - padding]);
+
+        const dateScale = d3.scaleLinear().domain([minDate, maxDate]).range([padding, w - padding]);
+        const xAxis = d3.axisBottom(dateScale).tickFormat(d3.format("d"));
+        const yAxis = d3.axisLeft(yScale);
 
         //The svg element, to which bars will be appended.
         const svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
@@ -35,14 +39,29 @@ document.addEventListener("DOMContentLoaded", function() {
         .data(dataset)
         .enter()
         .append("rect")
-        .attr("x", (d, i) => xScale(i*barWidth))
-        .attr("y", (d) => h - yScale(d[1])) //This line is probably okay, but we'll want to account for padding.
-        .attr("width", xScale(barWidth))
-        .attr("height", (d) => yScale(d[1]))
+        .attr("x", (d, i) => xScale(i))
+        .attr("y", (d) => h - yScale(d[1]))
+        .attr("width", barWidth)
+        .attr("height", (d) => yScale(d[1]) - padding)
         .attr("class", "bar");
 
+        svg.append("g")
+        .attr("transform", "translate(0," + (h - padding) + ")")
+        .call(xAxis);
+
+        svg.append("g")
+        .attr("transform", "translate("+(padding)+", 0)")
+        .call(yAxis);
+
+        svg.append("text")
+        .attr("x", w/2)
+        .attr("y", 35)
+        .attr("text-anchor", "middle")
+        .attr("class", "title")
+        .text("United States GDP");
+
         //This is just for testing purposes at the minute.
-        document.getElementById("content").innerHTML = dataset.length;
+        //document.getElementById("content").innerHTML = minDate;
 
         
     }

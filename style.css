@@ -1,6 +1,8 @@
 body {
     background: grey;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 svg {
@@ -13,4 +15,9 @@ svg {
 
 .bar {
     fill: navy;
+}
+
+.title {
+    font-size: 25px;
+    font-weight: bold;
 }
