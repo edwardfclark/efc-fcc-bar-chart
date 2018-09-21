@@ -1,12 +1,13 @@
 body {
     background: grey;
     display: flex;
-    justify-content: center;
-    align-items: center;
+
 }
 
 svg {
     background: white;
+    margin: 0 auto;
+    margin-top: 80px;
 }
 
 .bar:hover {
@@ -17,7 +18,11 @@ svg {
     fill: navy;
 }
 
-.title {
+#title {
     font-size: 25px;
     font-weight: bold;
+}
+
+.left-label {
+    transform: rotate(270deg);
 }
